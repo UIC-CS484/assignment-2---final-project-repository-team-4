@@ -12,6 +12,7 @@ var usersRouter = require('./routes/users');
 // my routers
 var loginRouter = require('./routes/login');
 var loginSubmitRouter = require('./routes/loginSubmit');
+var createAccountRouter = require('./routes/createAccount');
 
 var app = express();
 
@@ -46,6 +47,7 @@ app.use(passport.session());
 
 app.use('/', loginRouter);
 app.use('/loginSubmit', loginSubmitRouter);
+app.use('/createAccount', createAccountRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
