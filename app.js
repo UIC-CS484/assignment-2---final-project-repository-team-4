@@ -51,6 +51,7 @@ app.use('/loginSubmit', loginSubmitRouter);
 app.use('/createAccount', createAccountRouter);
 app.use('/submit', submitRouter);
 app.use('/users', usersRouter);
+app.use('/dashboard', confirmationRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -19,7 +19,7 @@ router.post('/', function(req, res, next) {
         console.log("first_name: " + first_name + "last_name: " + last_name + " Email: " + email + " Password: " + password);
 
         'use strict';
-            var randomValue = Math.random() * 123;
+        var randomValue = Math.random() * 123;
         let users = [{ 
             id: randomValue,
             first_name: first_name,
