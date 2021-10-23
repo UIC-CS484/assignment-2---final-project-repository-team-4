@@ -1,8 +1,4 @@
-//FIX erors if no items in json
-//Add test cases
-//Add more security to passport
-//Look at other requirements
-//https://www.youtube.com/watch?v=sTHWNPVNvm8&t=0s
+
 //var User = require('./users.json'); 
 const localStrategy = require('passport-local').Strategy;
 const fs = require('fs');
