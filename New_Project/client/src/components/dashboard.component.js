@@ -1,51 +1,38 @@
-import React, { Component } from "react";
-import Axios from 'axios';
-import {Redirect} from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 
-export default class Dashboard extends Component {
+const Dashboard = () => {
+  Axios.defaults.withCredentials = true;
 
-    constructor(props){
-        super(props);
-        Axios.defaults.withCredentials = true;
-        this.state = {
-            fName: ""
-        };
-    }
+  const [name, setName] = useState(null);
 
-    getUser = () => {
-        Axios.get('http://localhost:3001/user')
-        .then((response) =>{
-            this.setState({fName: response.data.first_name});
-            //this.setState({data: response.data});
-        })
-    };
+  const getUser = () => {
+    Axios.get("http://localhost:3001/user").then((response) => {
+      setName(response.data.first_name);
+    });
+  };
 
-    logout = () => {
-        Axios.get('http://localhost:3001/logout')
-        .then((response) => {
-            this.setState({fName: null});
-        })
-    }
+  const logout = () => {
+    Axios.get("http://localhost:3001/logout").then((response) => {
+      setName(null);
+    });
+  };
 
-    componentDidMount(){
-        this.getUser();
-    }
+  useEffect(() => {
+    getUser();
+  }, []);
 
-    render() {
-        // if(this.state.loggedIn){
-            
-        // }
+  return (
+    <div>
+      {name ? (
+        <div>
+          Welcome {name}!<button onClick={logout}>Logout</button>
+        </div>
+      ) : (
+        <div>Not Logged In</div>
+      )}
+    </div>
+  );
+};
 
-        return (
-            <div>
-                {this.state.fName ? 
-                <div>
-                    Welcome {this.state.fName}!
-                    <button onClick={this.logout}>Logout</button>
-               </div> :
-               <div>Not Logged In</div>
-                }
-            </div>
-        );
-    }
-}
+export default Dashboard;
