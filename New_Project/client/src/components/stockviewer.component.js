@@ -1,12 +1,11 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
-export default class StockViewer extends Component {
+const StockViewer = () => {
+  return (
+    <div>
+      <h3>Stock Viewer</h3>
+    </div>
+  );
+};
 
-    render() {
-        return (
-            <div>
-                <h3>Stock Viewer</h3>
-            </div>
-        );
-    }
-}
+export default StockViewer;
