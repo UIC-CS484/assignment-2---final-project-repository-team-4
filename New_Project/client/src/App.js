@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
 import Dashboard from "./components/dashboard.component";
+import StockViewer from './components/stockviewer.component';
 
 function App() {
   return ( 
@@ -20,6 +21,9 @@ function App() {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/stock-viewer"}>Stock Viewer</Link>
               </li>
             </ul>
           </div>
@@ -40,6 +44,9 @@ function App() {
             </Route>
             <Route path="/dashboard" component={Dashboard}>
               <Dashboard authed={true}/>
+            </Route>
+            <Route path="/stock-viewer" component={StockViewer} >
+              <StockViewer />
             </Route>
           </Switch>
         </div>
