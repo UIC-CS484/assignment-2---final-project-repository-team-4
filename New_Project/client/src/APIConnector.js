@@ -9,13 +9,16 @@ export const getHistoricalData = (ticker, fromDate, toDate) => {
       }).then(function (quotes) {
         if (quotes[0]) {
             console.log(`successfully retrieved ${quotes.length} results`);
+            //console.log(quotes[0]);
+            return quotes;
         } else {
           console.log('N/A');
+          return undefined;
         }
       });
 }
 
-//getHistoricalData('AAPL', '2012-01-01', '2012-01-30')
+getHistoricalData('AAPL', '2012-01-01', '2012-01-30')
 
 // yahooFinance.historical({
 //     symbol: SYMBOL,
