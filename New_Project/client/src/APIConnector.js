@@ -18,7 +18,7 @@ export const getHistoricalData = (ticker, fromDate, toDate) => {
       });
 }
 
-getHistoricalData('AAPL', '2012-01-01', '2012-01-30')
+//getHistoricalData('AAPL', '2012-01-01', '2012-01-30')
 
 // yahooFinance.historical({
 //     symbol: SYMBOL,
