@@ -1,11 +1,30 @@
 import React, { useState, useEffect } from "react";
 import MyResponsiveLine from "./MyResponsiveLine";
-import data from "../data/mockData.json";
+// import data from "../data/mockData.json";
 import data1 from "../data/mockData1.json";
 import { getHistoricalData } from "../APIConnector";
 
 const StockViewer = () => {
-  getHistoricalData("AAPL", "2012-01-01", "2012-01-30");
+  const [data, setData] = useState(null);
+  // const [state, setState] = React.useState(false);
+
+  useEffect(() => {
+    const getData = () => {
+      return getHistoricalData("AAPL", "2012-01-01", "2012-01-30");
+    };
+    const fetchData = async () => {
+      const API_DATA = await getData();
+      console.log("Async Marker");
+      console.log(API_DATA);
+      setData(formatData(API_DATA));
+    };
+    fetchData();
+  }, [data]);
+
+  const formatData = (data) => {
+    console.log(data);
+    setData(data);
+  };
 
   return (
     <div
@@ -21,7 +40,12 @@ const StockViewer = () => {
       }}
     >
       <h3>Stock Viewer</h3>
-      <MyResponsiveLine data={data1}></MyResponsiveLine>
+      {data !== null ? (
+        <MyResponsiveLine data={data1}></MyResponsiveLine>
+      ) : (
+        "Loading"
+      )}
+      {/* <MyResponsiveLine data={data1}></MyResponsiveLine> */}
     </div>
   );
 };
