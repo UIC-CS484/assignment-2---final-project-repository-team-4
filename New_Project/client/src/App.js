@@ -1,61 +1,73 @@
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
 
 import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
 import Dashboard from "./components/dashboard.component";
-import StockViewer from './components/stockviewer.component';
+import StockViewer from "./components/stockviewer.component";
 
 function App() {
-  return ( 
+  return (
     <Router>
-    <div className="App">
-    <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-          <Link className="navbar-brand" to={"/sign-in"}>Tidal</Link>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to={"/sign-in"}>Login</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={"/stock-viewer"}>Stock Viewer</Link>
-              </li>
-            </ul>
+      <div className="App">
+        <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+          <div className="container">
+            <Link className="navbar-brand" to={"/sign-in"}>
+              Tidal
+            </Link>
+            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/sign-in"}>
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/sign-up"}>
+                    Sign up
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/stock-viewer"}>
+                    Stock Viewer
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
 
-      <div className="auth-wrapper">
-        <div className="auth-inner">
+        <div className="auth-wrapper">
           <Switch>
-            <Route exact path='/' component={Login}>
-              <Login />
+            <Route exact path="/" component={Login}>
+              <div className="auth-inner">
+                <Login />
+              </div>
             </Route>
             <Route path="/sign-in" component={Login}>
-              <Login />
+              <div className="auth-inner">
+                <Login />
+              </div>
             </Route>
             <Route path="/sign-up" component={SignUp}>
-              <SignUp/>
+              <div className="auth-inner">
+                <SignUp />
+              </div>
             </Route>
             <Route path="/dashboard" component={Dashboard}>
-              <Dashboard authed={true}/>
+              <div className="auth-inner">
+                <Dashboard authed={true} />
+              </div>
             </Route>
-            <Route path="/stock-viewer" component={StockViewer} >
+            <Route path="/stock-viewer" component={StockViewer}>
               <StockViewer />
             </Route>
           </Switch>
         </div>
       </div>
-    </div>
     </Router>
   );
 }
-
 
 //this.setState({stateVar: newVal});
 
@@ -74,9 +86,9 @@ function App() {
 //   Axios.defaults.withCredentials = true;
 //   const register = () => {
 //     Axios.post('http://localhost:3001/register', {
-//       fName: fNameReg, 
-//       lName: lNameReg, 
-//       email: emailReg, 
+//       fName: fNameReg,
+//       lName: lNameReg,
+//       email: emailReg,
 //       password: passwordReg},)
 //       .then((response) =>{
 //         console.log(response);
@@ -86,7 +98,7 @@ function App() {
 //   const login = () => {
 //     console.log("Pressed");
 //     Axios.post('http://localhost:3001/login', {
-//       email: emailLogin, 
+//       email: emailLogin,
 //       password: passwordLogin})
 //       .then((response) =>{
 //         console.log(response);
