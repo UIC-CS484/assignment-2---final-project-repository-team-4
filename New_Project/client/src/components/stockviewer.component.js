@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import MyResponsiveLine from "./MyResponsiveLine";
 import data from "../data/mockData.json";
 import data1 from "../data/mockData1.json";
+import { getHistoricalData } from "../APIConnector";
 
 const StockViewer = () => {
+  getHistoricalData("AAPL", "2012-01-01", "2012-01-30");
+
   return (
     <div
       style={{
