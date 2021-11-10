@@ -98,13 +98,18 @@ Therefore, we will need to write test cases around these 2 core functionalities.
 ## Test Cases for Server (In server folder)
 
 1. Test that POST register server call works as intended
-    1. Test register to a new user and successful authentication
-    2. Test register on user with same email in database
+   1. Test register to a new user and successful authentication
+   2. Test register on user with same email in database
 2. Test that POST login server call works as intended
-    1. Test with right login information
-    2. Test with wrong login information
+   1. Test with right login information
+   2. Test with wrong login information
 3. Test that GET user returns confirmation of authenticated user or not
-    1. Test with not authenticated
-    2. Test with authenticated
+   1. Test with not authenticated
+   2. Test with authenticated
 4. Test that GET logout succesfully logs user out of session using GET user
 
+### Charting Library and Meaningful Data Documentation
+
+1. The charting library we are using is [Nivo](https://nivo.rocks/line). Specfically, the Nivo line chart.
+2. The data endpoint, ENDPOINT HERE, from polygon provides the user meaningful data pertaining to XXXXXX.
+   1. We then use the Nivo Line chart to graph that data to help the user see the XXXX over XXXX
