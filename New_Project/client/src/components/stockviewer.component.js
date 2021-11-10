@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MyResponsiveLine from "./MyResponsiveLine";
 import data from "../data/mockData.json";
+import data1 from "../data/mockData1.json";
 
 const StockViewer = () => {
   return (
@@ -17,7 +18,7 @@ const StockViewer = () => {
       }}
     >
       <h3>Stock Viewer</h3>
-      <MyResponsiveLine data={data}></MyResponsiveLine>
+      <MyResponsiveLine data={data1}></MyResponsiveLine>
     </div>
   );
 };
