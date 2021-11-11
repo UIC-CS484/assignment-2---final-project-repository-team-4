@@ -27,30 +27,45 @@ const StockViewer = () => {
   //   setData(data);
   // };
 
-    useEffect(() => {
+  useEffect(() => {
+    if (data === null) {
       yahooFinance
-      .historical({
-        symbol: "AAPL",
-        from: "2012-01-01",
-        to: "2012-01-30",
-        period: "d",
-      })
-      .then(function (quotes) {
-        if (quotes[0]) {
-          console.log(`successfully retrieved ${quotes.length} results`);
-          setData(formatData(quotes))
-        } else {
-          console.log("N/A");
-          setData("IDK")
-        }
-      });
+        .historical({
+          symbol: "AAPL",
+          from: "2012-01-01",
+          to: "2012-01-30",
+          period: "d",
+        })
+        .then(function (quotes) {
+          if (quotes[0]) {
+            console.log(`successfully retrieved ${quotes.length} results`);
+            setData(formatData(quotes));
+          } else {
+            console.log("N/A");
+            // setData("IDK");
+          }
+        });
+    }
   }, [data]);
 
   const formatData = (data) => {
     console.log(data);
-    setData(data);
+    const formattedData = data.map((currentValue, index, data) => {
+      const correctDateFormat = data[index].date.toISOString().split("T");
+      return {
+        x: correctDateFormat[0],
+        y: data[index].close,
+      };
+    });
+
+    const finalData = {
+      id: data[0].symbol,
+      data: formattedData,
+    };
+    console.log(finalData);
+    return [finalData];
   };
-  
+
   return (
     <div
       style={{
@@ -66,7 +81,7 @@ const StockViewer = () => {
     >
       <h3>Stock Viewer</h3>
       {data !== null ? (
-        <MyResponsiveLine data={data1}></MyResponsiveLine>
+        <MyResponsiveLine data={data}></MyResponsiveLine>
       ) : (
         "Loading"
       )}
