@@ -111,5 +111,5 @@ Therefore, we will need to write test cases around these 2 core functionalities.
 ### Charting Library and Meaningful Data Documentation
 
 1. The charting library we are using is [Nivo](https://nivo.rocks/line). Specfically, the Nivo line chart.
-2. The data endpoint, ENDPOINT HERE, from polygon provides the user meaningful data pertaining to XXXXXX.
-   1. We then use the Nivo Line chart to graph that data to help the user see the XXXX over XXXX
+2. The data endpoint, Historical Stock, from Yahoo Finance provides the user meaningful data pertaining to the price of the stock in it's history.
+   1. We then use the Nivo Line chart to graph that data to help the user see the trend of the stock price over a period of time
