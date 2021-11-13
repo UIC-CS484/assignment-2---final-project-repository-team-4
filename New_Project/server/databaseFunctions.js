@@ -58,6 +58,29 @@ let createUser = async (fName, lName, email, password) =>{
 	return;
 }
 
+//Delete User (have user enter email and password for confirmation)
+let deleteUser = async (id, email, password) => {
+	var result = await getUserDB(email, password);
+	if(result){
+		if(result.id == id){
+			var deleteUserSQL = 'DELETE FROM users WHERE id = ?'
+			await db.run(deleteUserSQL, [id]);
+			return true;
+		}
+	}
+	else{
+		return false;
+	}
+}
+
+//Updates user information
+let updateUserInfo = (id, fName, lName, email, password) => {
+	var updateUserSQL ='UPDATE users SET fName = ?, lName = ?, email = ?, password = ? WHERE id = ?';	
+	var hashedPassword = bcrypt.hashSync(password, 10);
+
+	db.run(updateUserSQL, [fName,lName,email,hashedPassword, id]);
+}
+
 //Retrieves a user based on email and password (used for authentication)
 let retrieveUser = async (email, password) => {
 	var data = await getUserDB(email, password);
@@ -72,7 +95,7 @@ let retrieveUser = async (email, password) => {
 }
 
 
-//Helper function for retrieveUser
+//Helper function for retrieveUser and deleteUser
 /*
 *, (err, row) => {
 		if(err)
@@ -107,4 +130,4 @@ async function runDBCreateUser(query, params){
 	return console.log("success");
 }
 
-module.exports = {createUser, checkEmailUsed, retrieveUser, findById}
+module.exports = {createUser, checkEmailUsed, retrieveUser, findById, updateUserInfo, deleteUser}
