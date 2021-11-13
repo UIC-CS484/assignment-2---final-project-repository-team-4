@@ -10,7 +10,7 @@ module.exports = function(passport){
             passwordField: 'password'
         },
         function(username, password, done){
-            //console.log(User.length);
+            console.log("Authenticating");
 
             fs.readFile('users.json', 'utf8', function readFileCallBack(err,data){
                 if(err) {console.log(err);}
@@ -34,10 +34,13 @@ module.exports = function(passport){
     )
 
     passport.serializeUser((user, done) => {
-        done(null, user);
+        console.log("in serialize");
+        done(null, user.id);
     })
 
     passport.deserializeUser((id, done) => {
+        console.log("In deserialize");
+        console.log(id);
         done(null, id);
     })
 }
