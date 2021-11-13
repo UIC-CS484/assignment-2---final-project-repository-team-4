@@ -8,7 +8,8 @@ const Dashboard = () => {
 
   const getUser = () => {
     Axios.get("http://localhost:3001/user").then((response) => {
-      setName(response.data.first_name);
+      console.log(response);
+      setName(response.data.fName);
     });
   };
 

@@ -7,18 +7,38 @@ const passportLocal = require('passport-local').Strategy;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3') (session);
+const db = require('./databaseFunctions');
 
 //Middleware
+const whitelist = ['https://finance.yahoo.com/quote/AAPL/history', 'http://localhost:3000'];
+app.use((req, res, next) => {
+    res.header({"Access-Control-Allow-Origin": "*"});
+    next();
+}) 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: function(origin, callback){
+        if(whitelist.indexOf(origin) !== -1){
+            callback(null, true);
+        }
+        else{
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true
 }));
 app.use(session({
     secret: "aCode",
-    resave: true,
-    saveUninitialized: true
+    resave: false,  //true
+    saveUninitialized: true,
+    store: new SQLiteStore({
+        table: 'session',
+        db: 'tidalDB.sqlite3',
+        dir: './Database'
+    }),
+    cookie: {maxAge: 1000*60*60*24 } //1 day | not here before
 }));
 app.use(cookieParser("aCode"));
 app.use(passport.initialize());
@@ -28,7 +48,7 @@ require('./passportConfig.js')(passport);
 
 //Router
 //[{"id":105.0504696977599,"first_name":"admin","last_name":"admin","email":"google@g","password":"1"}]
-app.post('/register', (req,res)=>{
+app.post('/register', async (req,res)=>{
     const fname = req.body.fName;
     const lname = req.body.lName;
     const email = req.body.email;
@@ -40,37 +60,52 @@ app.post('/register', (req,res)=>{
     console.log(email);
     console.log(password);
 
-    var randomValue = Math.random() * 123;
+    //var randomValue = Math.random() * 123;
     let users = { 
-        id: randomValue,
+        //id: randomValue,
         first_name: fname,
         last_name: lname, 
         email: email,
         password: password
     };
 
-    fs.readFile('users.json', function(err, data){
-        if(err) throw err;
-
+    if(await db.checkEmailUsed(email)){
+        res.send({message: "Email already used"});
+        return;
+    }
+    else{
         try{
-            var parseJson = JSON.parse(data);
+            await db.createUser(fname, lname, email, password);
+            res.send({message: "Account Sucessfully Made"});
         }catch(error){
-            console.log(error);
-            return;
+            console.log("Error in creating user");
         }
 
-        for(i = 0; i < parseJson.users.length; i++){
-            if(parseJson.users[i].email == users.email){
-                res.send({message: "Email already used"});
-                return;
-            }
-        }
-        parseJson.users.push(users);
-        let json = JSON.stringify(parseJson);
-        fs.writeFile('users.json', json, 'utf8', () => {});
-        res.send({message: "Account Sucessfully Made"});
+    }
 
-    });
+
+    // fs.readFile('users.json', function(err, data){
+    //     if(err) throw err;
+
+    //     try{
+    //         var parseJson = JSON.parse(data);
+    //     }catch(error){
+    //         console.log(error);
+    //         return;
+    //     }
+
+    //     for(i = 0; i < parseJson.users.length; i++){
+    //         if(parseJson.users[i].email == users.email){
+    //             res.send({message: "Email already used"});
+    //             return;
+    //         }
+    //     }
+    //     parseJson.users.push(users);
+    //     let json = JSON.stringify(parseJson);
+    //     fs.writeFile('users.json', json, 'utf8', () => {});
+    //     res.send({message: "Account Sucessfully Made"});
+
+    // });
 
     // let data = JSON.stringify(users);
     // //check to see if user exists
@@ -83,8 +118,7 @@ app.post('/register', (req,res)=>{
 });
 
 app.get("/user", (req,res) => {
-    //console.log("GetUser: " + req.user)
-    if(!req.user){
+    if(!req.isAuthenticated()){
         res.send({message:"No authenticated User"});
     }
     else
@@ -106,12 +140,15 @@ app.post('/login', function(req,res,next){
         console.log("user " + user);
         if(err) throw err;
         if(user == false){ 
-            console.log("Bruh");
+            console.log("User doesn't exist");
             res.send({message: "No User Exists"});
             return;
         }
         else{
             req.logIn(user, err => {
+                console.log("in Login: \n");
+                console.log(user);
+                console.log("\n")
                 if(err) throw err;
                 res.send({message: "Sucessfully Authenticated"});
                     

@@ -2,6 +2,7 @@
 //var User = require('./users.json'); 
 const localStrategy = require('passport-local').Strategy;
 const fs = require('fs');
+const db = require('./databaseFunctions');
 
 module.exports = function(passport){
     passport.use(
@@ -9,35 +10,51 @@ module.exports = function(passport){
             usernameField: 'email',
             passwordField: 'password'
         },
-        function(username, password, done){
-            //console.log(User.length);
+        async function(username, password, done){
+            console.log("Authenticating");
+            var user = await db.retrieveUser(username, password);
 
-            fs.readFile('users.json', 'utf8', function readFileCallBack(err,data){
-                if(err) {console.log(err);}
-                else{
-                    try{
-                        var parseJson = JSON.parse(data).users;
-                    }catch(error){
-                        console.log(error);
-                    }
-                    for(i = 0; i < parseJson.length; i++){
-                        var user = parseJson[i];
-                        if(user.email == username && user.password == password){
-                            done(null, user)
-                            return;
-                        }
-                    }
-                    done(null, false);
-                }
-            });
+            if(user){
+                done(null, user);
+            }
+            else{
+                done(null, false);
+            }
+            // fs.readFile('users.json', 'utf8', function readFileCallBack(err,data){
+            //     if(err) {console.log(err);}
+            //     else{
+            //         try{
+            //             var parseJson = JSON.parse(data).users;
+            //         }catch(error){
+            //             console.log(error);
+            //         }
+            //         for(i = 0; i < parseJson.length; i++){
+            //             var user = parseJson[i];
+            //             if(user.email == username && user.password == password){
+            //                 done(null, user)
+            //                 return;
+            //             }
+            //         }
+            //         done(null, false);
+            //     }
+            // });
+
         })
     )
 
     passport.serializeUser((user, done) => {
-        done(null, user);
+        console.log("in serialize");
+        done(null, user.id);
     })
 
     passport.deserializeUser((id, done) => {
-        done(null, id);
+        console.log("In deserialize");
+        console.log(id);
+        db.findById(id).then((user) => {
+            console.log("User");
+            console.log(user)
+            done(null, user);
+        })
+        .catch(err => done(null, false));
     })
 }
