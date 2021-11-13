@@ -1,4 +1,6 @@
 var sqlite3 = require('sqlite3').verbose() //npm install sqlite3
+const bcrypt = require('bcrypt');
+const util = require('util');
 
 //Creating a new database instance - Indication of connected database
 //Before peforming any operations to database, make sure database is connected.
@@ -13,6 +15,11 @@ let db = new sqlite3.Database('./Database/tidalDB.sqlite3', (err) => {
     }
 });
 
+db.run = util.promisify(db.run);
+db.get = util.promisify(db.get);
+db.all = util.promisify(db.all);
+
+//Retreive boolean on whether email is used
 let checkEmailUsed = (email) =>{
 	var getEmailSql = 'SELECT email FROM users WHERE email = ?';
 	db.get(getEmailSql, [email], (err, row) => {
@@ -25,18 +32,79 @@ let checkEmailUsed = (email) =>{
 	});
 }
 
-//Create a User
-let createUser = (fName, lName, email, password) =>{
-	var createUserSql ='INSERT INTO users (id, fName,lName,email,password) VALUES (?,?,?,?,?)'
-	var params =[null, fName,lName, email, password];
+//Retrieve by ID (used for session)
+/*], (err, row) => {
+		if(err)
+			return console.error(err.message);
+		if(row){
+			return row;
+		}
+		return null;
+	}*/
+let findById = async (id) => {
+	var getAccount = 'SELECT * FROM users WHERE id = ?';
+	var result = await db.get(getAccount, [id]);
+	return result;
+}
 
-	db.run(createUserSql, params, function(err){
-		if (err){
+//Create a User
+let createUser = async (fName, lName, email, password) =>{
+	var createUserSql ='INSERT INTO users (id, fName,lName,email,password) VALUES (?,?,?,?,?)'
+	var hashedPassword = bcrypt.hashSync(password, 10);
+	var params =[null, fName,lName, email, hashedPassword];
+
+	await runDBCreateUser(createUserSql, params);
+	console.log("Finished creating user");
+	return;
+}
+
+//Retrieves a user based on email and password (used for authentication)
+let retrieveUser = async (email, password) => {
+	var data = await getUserDB(email, password);
+	if(data){
+		console.log("data");
+		return data;
+	}
+	else{
+		console.log("Null");
+		return null;
+	}
+}
+
+
+//Helper function for retrieveUser
+/*
+*, (err, row) => {
+		if(err)
+			return console.error(err.message);
+		if(row){
+			if(bcrypt.compareSync(password, row.password))
+				return row;
+		}
+		return null;
+	}
+*/
+async function getUserDB(email, password){
+	var getAccount = 'SELECT * FROM users WHERE email = ?';
+	var user = await db.get(getAccount, [email]);
+	if(user && bcrypt.compareSync(password, user.password)){
+		return user;
+	}
+	else{
+		return null;
+	}
+}
+
+//Helper function for createUser
+async function runDBCreateUser(query, params){
+	await db.run(query, params, function (err) {
+		if (err) {
 			return console.log(err.message);
 		}
 		console.log("User Created");
-		console.log(`Rows inserted ${this.changes}`);	  
+		console.log(`Rows inserted ${this.changes}`);
 	});
+	return console.log("success");
 }
 
-module.exports = {createUser, checkEmailUsed}
+module.exports = {createUser, checkEmailUsed, retrieveUser, findById}

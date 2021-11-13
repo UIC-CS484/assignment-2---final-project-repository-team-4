@@ -36,7 +36,7 @@ require('./passportConfig.js')(passport);
 
 //Router
 //[{"id":105.0504696977599,"first_name":"admin","last_name":"admin","email":"google@g","password":"1"}]
-app.post('/register', (req,res)=>{
+app.post('/register', async (req,res)=>{
     const fname = req.body.fName;
     const lname = req.body.lName;
     const email = req.body.email;
@@ -57,13 +57,13 @@ app.post('/register', (req,res)=>{
         password: password
     };
 
-    if(db.checkEmailUsed(email)){
+    if(await db.checkEmailUsed(email)){
         res.send({message: "Email already used"});
         return;
     }
     else{
         try{
-            db.createUser(fname, lname, email, password);
+            await db.createUser(fname, lname, email, password);
             res.send({message: "Account Sucessfully Made"});
         }catch(error){
             console.log("Error in creating user");
@@ -106,7 +106,6 @@ app.post('/register', (req,res)=>{
 });
 
 app.get("/user", (req,res) => {
-    //console.log("GetUser: " + req.user)
     if(!req.isAuthenticated()){
         res.send({message:"No authenticated User"});
     }
