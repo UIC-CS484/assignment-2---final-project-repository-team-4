@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MyResponsiveLine from "./MyResponsiveLine";
+import Dropdown from 'react-bootstrap/Dropdown';
 // import data from "../data/mockData.json";
 import data1 from "../data/mockData1.json";
 import { getHistoricalData } from "../APIConnector";
@@ -7,6 +8,7 @@ var yahooFinance = require("yahoo-finance");
 
 const StockViewer = () => {
   const [data, setData] = useState(null);
+  const [curStock, setCurStock] = useState("AAPL");
   // const [state, setState] = React.useState(false);
 
   // useEffect(() => {
@@ -28,12 +30,12 @@ const StockViewer = () => {
   // };
 
   useEffect(() => {
-    if (data === null) {
+    
       yahooFinance
         .historical({
-          symbol: "AAPL",
-          from: "2012-01-01",
-          to: "2012-01-30",
+          symbol: curStock,
+          from: "2021-01-01",
+          to: "2021-01-30",
           period: "d",
         })
         .then(function (quotes) {
@@ -45,8 +47,8 @@ const StockViewer = () => {
             // setData("IDK");
           }
         });
-    }
-  }, [data]);
+    
+  }, [data, curStock]);
 
   const formatData = (data) => {
     console.log(data);
@@ -86,6 +88,18 @@ const StockViewer = () => {
         "Loading"
       )}
       {/* <MyResponsiveLine data={data1}></MyResponsiveLine> */}
+      <Dropdown>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          {curStock}
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={() => setCurStock("FB")} href="#/action-3">Facebook</Dropdown.Item>
+          <Dropdown.Item onClick={() => setCurStock("AAPL")} href="#/action-1">Apple</Dropdown.Item>
+          <Dropdown.Item onClick={() => setCurStock("AMZN")} href="#/action-2">Amazon</Dropdown.Item>
+          <Dropdown.Item onClick={() => setCurStock("NFLX")} href="#/action-3">Netflix</Dropdown.Item>
+          <Dropdown.Item onClick={() => setCurStock("GOOGL")} href="#/action-3">Google</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </div>
   );
 };
