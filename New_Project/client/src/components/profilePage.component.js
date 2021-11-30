@@ -18,10 +18,26 @@ export default class ProfilePage extends Component {
     };
   }
 
-  updatePassword = (state) => {};
+  updatePassword = (state) => {
+    Axios.post("http://localhost:3001/updatePassword", {
+      fName: state.firstName,
+      lName: state.lastName,
+      email: state.emailAddress,
+      password: state.password,
+    }).then((response) => {
+      this.setState({ data: response.data });
+      if (response.data.message == "Update Succesful") {
+        /* Play some notification */
+        console.log("Account Updated");
+      } else {
+        console.log("Something went wrong");
+        /* Do some kind of warning */
+      }
+    });
+  };
 
   deleteAccount = (state) => {
-    Axios.post("http://localhost:3001/delete", {
+    Axios.post("http://localhost:3001/deleteAccount", {
       email: state.emailAddress,
     }).then((response) => {
       this.setState({ data: response.data });

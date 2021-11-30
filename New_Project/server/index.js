@@ -124,6 +124,10 @@ app.get("/deleteAccount", (req, res) => {
   res.send({ message: "Account Deleted" });
 });
 
+app.get("/updatePassword", (req, res) => {
+  res.send({ message: "Update Succesful" });
+});
+
 app.get("/user", (req, res) => {
   if (!req.isAuthenticated()) {
     res.send({ message: "No authenticated User" });
