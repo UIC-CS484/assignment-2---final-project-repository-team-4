@@ -37,6 +37,18 @@ export default class ProfilePage extends Component {
     });
   };
 
+  getUser = () => {
+    //console.log("GetUser");
+    Axios.get("http://localhost:3001/user").then((response) => {
+      if (response.data.message !== "No authenticated User") {
+        console.log(response)
+        this.setState({ loggedIn: true, firstName: response.data.fName, id: response.data.id, lastName: response.data.lName, emailAddress: response.data.email});
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    });
+  };
+
   deleteAccount = (state) => {
     Axios.post("http://localhost:3001/deleteAccount", {
       id: state.id,
@@ -67,6 +79,10 @@ export default class ProfilePage extends Component {
     return true;
   };
 
+  componentDidMount() {
+    this.getUser();
+  }
+
   render() {
     if (this.state.loggedIn == false) {
       return <Redirect to="/sign-up" />;
@@ -80,7 +96,7 @@ export default class ProfilePage extends Component {
           <input
             type="text"
             className="form-control"
-            placeholder="First name"
+            value={this.state.firstName}
             onChange={(e) => {
               this.setState({ firstName: e.target.value });
             }}
@@ -92,7 +108,7 @@ export default class ProfilePage extends Component {
           <input
             type="text"
             className="form-control"
-            placeholder="Last name"
+            value={this.state.lastName}
             onChange={(e) => {
               this.setState({ lastName: e.target.value });
             }}
@@ -104,7 +120,7 @@ export default class ProfilePage extends Component {
           <input
             type="email"
             className="form-control"
-            placeholder="Enter email"
+            value={this.state.emailAddress}
             onChange={(e) => {
               this.setState({ emailAddress: e.target.value });
             }}
