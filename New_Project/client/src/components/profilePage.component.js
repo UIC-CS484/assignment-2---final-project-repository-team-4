@@ -7,6 +7,7 @@ export default class ProfilePage extends Component {
     super(props);
     Axios.defaults.withCredentials = true;
     this.state = {
+      id: "",
       firstName: "",
       lastName: "",
       emailAddress: "",
@@ -38,6 +39,8 @@ export default class ProfilePage extends Component {
 
   deleteAccount = (state) => {
     Axios.post("http://localhost:3001/deleteAccount", {
+      id: state.id,
+      password: state.password,
       email: state.emailAddress,
     }).then((response) => {
       this.setState({ data: response.data });

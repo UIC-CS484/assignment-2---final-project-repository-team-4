@@ -121,7 +121,13 @@ app.post("/register", async (req, res) => {
 
 app.get("/deleteAccount", (req, res) => {
   /* Do delete account logic here */
-  res.send({ message: "Account Deleted" });
+  try {
+    db.deleteUser(req.body.email, req.body.password);
+    res.send({ message: "Account Deleted" });
+  } catch {
+    console.log("Error");
+    res.send({ message: "Error deleting account" });
+  }
 });
 
 app.get("/updatePassword", (req, res) => {
