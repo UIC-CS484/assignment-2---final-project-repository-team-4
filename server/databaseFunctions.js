@@ -1,5 +1,5 @@
 var sqlite3 = require("sqlite3").verbose(); //npm install sqlite3
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const util = require("util");
 
 //Creating a new database instance - Indication of connected database
