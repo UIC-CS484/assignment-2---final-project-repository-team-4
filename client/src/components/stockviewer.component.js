@@ -40,18 +40,25 @@ const StockViewer = () => {
         })
         .then(function (quotes) {
           if (quotes[0]) {
-            console.log(`successfully retrieved ${quotes.length} results`);
+            //console.log(`successfully retrieved ${quotes.length} results`);
             setData(formatData(quotes));
           } else {
             console.log("N/A");
             // setData("IDK");
           }
+          //console.log(data);
         });
     
   }, [data, curStock]);
 
+  // const addLineChart = () => {
+  //   for(let i = 0; i < data.length; i++){
+
+  //   }
+  // }
+
   const formatData = (data) => {
-    console.log(data);
+    //console.log(data);
     const formattedData = data.map((currentValue, index, data) => {
       const correctDateFormat = data[index].date.toISOString().split("T");
       return {
@@ -64,7 +71,7 @@ const StockViewer = () => {
       id: data[0].symbol,
       data: formattedData,
     };
-    console.log(finalData);
+    //console.log(finalData);
     return [finalData];
   };
 
