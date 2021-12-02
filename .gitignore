@@ -39,8 +39,8 @@ bower_components
 build/Release
 
 # Dependency directories
-New_Project/client/node_modules/
-New_Project/server/node_modules/
+client/node_modules/
+server/node_modules/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -158,3 +158,5 @@ packages/react-devtools-extensions/.tempUserDataDir
 packages/react-devtools-inline/dist
 packages/react-devtools-shell/dist
 packages/react-devtools-timeline/dist
+
+.DS_Store
