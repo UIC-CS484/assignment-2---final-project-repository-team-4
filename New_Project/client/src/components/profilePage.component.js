@@ -16,15 +16,64 @@ export default class ProfilePage extends Component {
       data: "",
       errorMsg: null,
       errorMsgPassword: null,
+      newFName: "",
+      newLName: "",
+      newEmail: "",
+      newPassword: "",
+      changePassword: false
     };
   }
 
-  updatePassword = (state) => {
-    Axios.post("http://localhost:3001/updatePassword", {
-      fName: state.firstName,
-      lName: state.lastName,
-      email: state.emailAddress,
-      password: state.password,
+  checkPasswordStrength = (pwd) => {
+    if (!pwd.includes("!")) {
+      this.setState({ errorMsgPassword: "Password needs an !" });
+      console.log("! error");
+      return false;
+    }
+    if (pwd.length < 6) {
+      console.log("Length error");
+      this.setState({ errorMsgPassword: "Password too short." });
+      return false;
+    }
+    return true;
+  };
+
+  updateInfo = (state) => {
+    //Check for password stength
+    if(state.newPassword != ""){
+      //console.log("Password: " + this.state.newPassword);
+      let check = this.checkPasswordStrength(this.state.newPassword);
+      if(!check){
+        console.log("Password weak!");
+        console.log(this.state.errorMsgPassword);
+        return;
+      }
+      state.changePassword = true;
+    }
+
+    //Check to see what fields need to be updated
+    if(state.newPassword == ""){
+      state.changePassword = false;
+      state.newPassword = state.password;
+    }
+    //Update all other fields
+    if(this.state.newFName == ""){
+      state.newFName = state.firstName;
+    }
+    if(this.state.newLName == ""){
+      state.newLName = state.lastName;
+    }
+    if(this.state.newEmail == ""){
+      state.newEmail = state.emailAddress;
+    }
+
+    Axios.post("http://localhost:3001/updateInfo", {
+      id: state.id,
+      fName: state.newFName,
+      lName: state.newLName,
+      email: state.newEmail,
+      password: state.newPassword,
+      changePwd: state.changePassword
     }).then((response) => {
       this.setState({ data: response.data });
       if (response.data.message == "Update Succesful") {
@@ -41,8 +90,9 @@ export default class ProfilePage extends Component {
     //console.log("GetUser");
     Axios.get("http://localhost:3001/user").then((response) => {
       if (response.data.message !== "No authenticated User") {
-        console.log(response)
-        this.setState({ loggedIn: true, firstName: response.data.fName, id: response.data.id, lastName: response.data.lName, emailAddress: response.data.email});
+        //console.log(response)
+        this.setState({ loggedIn: true, firstName: response.data.fName, id: response.data.id, 
+          lastName: response.data.lName, emailAddress: response.data.email, password: response.data.password});
       } else {
         this.setState({ loggedIn: false });
       }
@@ -67,18 +117,6 @@ export default class ProfilePage extends Component {
     });
   };
 
-  checkPasswordStrength = (pState) => {
-    if (!pState.password.includes("!")) {
-      this.setState({ errorMsgPassword: "Password needs an !" });
-      return false;
-    }
-    if (pState.password.length < 6) {
-      this.setState({ errorMsgPassword: "Password too short." });
-      return false;
-    }
-    return true;
-  };
-
   componentDidMount() {
     this.getUser();
   }
@@ -92,37 +130,39 @@ export default class ProfilePage extends Component {
         <h3>Profile Page</h3>
 
         <div className="form-group">
-          <label>First name</label>
+          <div>Add to the fields that you want to change</div>
+          <label>First name - (Currently: {this.state.firstName})</label>
           <input
             type="text"
             className="form-control"
-            value={this.state.firstName}
+            placeholder= "Enter First Name"
             onChange={(e) => {
-              this.setState({ firstName: e.target.value });
+              this.setState({ newFName: e.target.value });
+              //console.log(this.state.newFName);
             }}
           />
         </div>
 
         <div className="form-group">
-          <label>Last name</label>
+          <label>Last name - (Currently: {this.state.lastName})</label>
           <input
             type="text"
             className="form-control"
-            value={this.state.lastName}
+            placeholder="Enter Last Name"
             onChange={(e) => {
-              this.setState({ lastName: e.target.value });
+              this.setState({ newLName: e.target.value });
             }}
           />
         </div>
 
         <div className="form-group">
-          <label>Email address</label>
+          <label>Email address - (Currently: {this.state.emailAddress})</label>
           <input
             type="email"
             className="form-control"
-            value={this.state.emailAddress}
+            placeholder="Enter email"
             onChange={(e) => {
-              this.setState({ emailAddress: e.target.value });
+              this.setState({ newEmail: e.target.value });
             }}
           />
         </div>
@@ -135,7 +175,7 @@ export default class ProfilePage extends Component {
             className="form-control"
             placeholder="Enter password"
             onChange={(e) => {
-              this.setState({ password: e.target.value });
+              this.setState({ newPassword: e.target.value });
             }}
           />
         </div>
@@ -143,7 +183,11 @@ export default class ProfilePage extends Component {
         <button
           type="submit"
           className="btn btn-primary btn-block"
-          onClick={() => this.updatePassword(this.state)}
+          onClick={() => {
+            this.updateInfo(this.state);
+            this.setState({errorMsg: null});
+            window.location.reload(false);
+          }}
         >
           Update Info
         </button>

@@ -73,16 +73,23 @@ let deleteUser = async (id, email, password) => {
 };
 
 //Updates user information
-let updateUserInfo = (id, fName, lName, email, password) => {
+let updateUserInfo = (id, fName, lName, email, password, changePassword) => {
+  //console.log("In DB update password: " + password);
+  //console.log("In DB update changePassword: " + changePassword);
   var updateUserSQL =
     "UPDATE users SET fName = ?, lName = ?, email = ?, password = ? WHERE id = ?";
-  var hashedPassword = bcrypt.hashSync(password, 10);
+  
+  if(changePassword){
+    password = bcrypt.hashSync(password, 10);
+  }
 
-  db.run(updateUserSQL, [fName, lName, email, hashedPassword, id]);
+  db.run(updateUserSQL, [fName, lName, email, password, id]);
 };
 
 //Retrieves a user based on email and password (used for authentication)
 let retrieveUser = async (email, password) => {
+  console.log("in db email: " + email);
+  console.log("in db password: " + password);
   var data = await getUserDB(email, password);
   if (data) {
     console.log("data");
@@ -108,6 +115,7 @@ let retrieveUser = async (email, password) => {
 async function getUserDB(email, password) {
   var getAccount = "SELECT * FROM users WHERE email = ?";
   var user = await db.get(getAccount, [email]);
+  console.log(user);
   if (user && bcrypt.compareSync(password, user.password)) {
     return user;
   } else {

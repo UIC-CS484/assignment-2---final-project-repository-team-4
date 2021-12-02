@@ -130,7 +130,17 @@ app.get("/deleteAccount", (req, res) => {
   }
 });
 
-app.get("/updatePassword", (req, res) => {
+app.post("/updateInfo", (req, res) => {
+  console.log("In update password");
+  const id = req.body.id;
+  const fname = req.body.fName;
+  const lname = req.body.lName;
+  const email = req.body.email;
+  const password = req.body.password;
+  const changePassword = req.body.changePwd;
+
+  db.updateUserInfo(id, fname, lname, email, password, changePassword);
+
   res.send({ message: "Update Succesful" });
 });
 
