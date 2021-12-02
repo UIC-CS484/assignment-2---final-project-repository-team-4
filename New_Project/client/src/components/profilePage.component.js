@@ -106,10 +106,12 @@ export default class ProfilePage extends Component {
       email: state.emailAddress,
     }).then((response) => {
       this.setState({ data: response.data });
-      if (response.data.message == "Account Deleted") {
+      console.log(response)
+      if (response.data.message == "Logged Out") {
         /* go back to homepage */
         this.setState({ loggedIn: false });
         console.log("Account Deleted");
+        window.location.reload(false);
       } else {
         alert("Didn't Delete");
         /* Do some kind of warning */

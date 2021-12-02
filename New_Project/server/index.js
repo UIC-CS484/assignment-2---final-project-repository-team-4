@@ -119,11 +119,17 @@ app.post("/register", async (req, res) => {
   // res.send("Successfully Registered");
 });
 
-app.get("/deleteAccount", (req, res) => {
+app.post("/deleteAccount", (req, res) => {
+  const id = req.body.id;
+  const email = req.body.email;
+  const password = req.body.password;
   /* Do delete account logic here */
   try {
-    db.deleteUser(req.body.email, req.body.password);
-    res.send({ message: "Account Deleted" });
+    let bool = db.deleteUser(id, email, password);
+    if(bool){
+      req.logout();
+    }
+    res.send({ message: "Logged Out" });
   } catch {
     console.log("Error");
     res.send({ message: "Error deleting account" });

@@ -60,7 +60,11 @@ let createUser = async (fName, lName, email, password) => {
 
 //Delete User (have user enter email and password for confirmation)
 let deleteUser = async (id, email, password) => {
-  var result = await getUserDB(email, password);
+  console.log(id);
+  console.log(email);
+  console.log(password);
+  var result = await getUserDBHashed(email, password);
+  console.log("result: " + result);
   if (result) {
     if (result.id == id) {
       var deleteUserSQL = "DELETE FROM users WHERE id = ?";
@@ -112,6 +116,17 @@ let retrieveUser = async (email, password) => {
 		return null;
 	}
 */
+async function getUserDBHashed(email, password){
+  var getAccount = "SELECT * FROM users WHERE email = ?";
+  var user = await db.get(getAccount, [email]);
+  console.log(user);
+  if (user && user.password == password) {
+    return user;
+  } else {
+    return null;
+  }
+}
+
 async function getUserDB(email, password) {
   var getAccount = "SELECT * FROM users WHERE email = ?";
   var user = await db.get(getAccount, [email]);
