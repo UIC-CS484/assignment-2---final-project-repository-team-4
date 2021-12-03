@@ -19,13 +19,12 @@ const whitelist = [
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser("aCode"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  // res.header({ "Access-Control-Allow-Origin": "*" });
-  // res.header({ "Access-Control-Allow-Credentials": true });
-  // res.header({ "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS" });
-  // res.header({ "Access-Control-Allow-Origin": "*" });
+  res.header({ "Access-Control-Allow-Origin": req.headers.origin });
+  res.header({ "Access-Control-Allow-Credentials": true });
+  res.header({ "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE" });
+  res.header({ "Access-Control-Allow-Headers": "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept" });
   next();
 });
 const corsConfig = {
@@ -54,6 +53,7 @@ app.use(
 require("./passportConfig.js")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Router
 //[{"id":105.0504696977599,"first_name":"admin","last_name":"admin","email":"google@g","password":"1"}]
