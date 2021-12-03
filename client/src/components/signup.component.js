@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
+const uri = process.env.REACT_APP_API_ENDPOINT;
+
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -22,7 +24,7 @@ export default class SignUp extends Component {
   createAccount = (pState) => {
     console.log("Create Account");
     if (this.checkPasswordStrength(pState)) {
-      Axios.post("/register", {
+      Axios.post(uri+"/register", {
         fName: pState.firstName,
         lName: pState.lastName,
         email: pState.emailAddress,
@@ -32,7 +34,7 @@ export default class SignUp extends Component {
         if (response.data.message == "Email already used") {
           this.setState({ errorMsg: "Email already used!" });
         } else if (response.data.message == "Account Sucessfully Made") {
-          Axios.post("http://localhost:3001/login", {
+          Axios.post(uri+"/login", {
             email: pState.emailAddress,
             password: pState.password,
           }).then((response) => {

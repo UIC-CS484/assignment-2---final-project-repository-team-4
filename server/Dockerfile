@@ -1,12 +1,12 @@
-FROM node:12.18.3
+# FROM node:12.18.3
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY ["package.json", "package-lock.json", "./"]
-RUN ls
-RUN npm install --production
-COPY . .
+# COPY ["package.json", "package-lock.json", "./"]
+# RUN ls
+# RUN npm install --production
+# COPY . .
 
-EXPOSE 3001
+# EXPOSE 3001
 
-CMD ["node", "server.js"]
+# CMD ["node", "server.js"]

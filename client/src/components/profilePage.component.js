@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
+const uri = process.env.REACT_APP_API_ENDPOINT;
 
 export default class ProfilePage extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ export default class ProfilePage extends Component {
       state.newEmail = state.emailAddress;
     }
 
-    Axios.post("updateInfo", {
+    Axios.post(uri+"updateInfo", {
       id: state.id,
       fName: state.newFName,
       lName: state.newLName,
@@ -88,7 +89,7 @@ export default class ProfilePage extends Component {
 
   getUser = () => {
     //console.log("GetUser");
-    Axios.get("user").then((response) => {
+    Axios.get(uri+"user").then((response) => {
       if (response.data.message !== "No authenticated User") {
         //console.log(response)
         this.setState({
@@ -106,7 +107,7 @@ export default class ProfilePage extends Component {
   };
 
   deleteAccount = (state) => {
-    Axios.post("deleteAccount", {
+    Axios.post(uri+"deleteAccount", {
       id: state.id,
       password: state.password,
       email: state.emailAddress,

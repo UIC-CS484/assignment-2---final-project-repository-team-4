@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
 
+const uri = process.env.REACT_APP_API_ENDPOINT;
+
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +20,7 @@ export default class Login extends Component {
   }
 
   login(pState) {
-    Axios.post("/login", {
+    Axios.post(uri+"/login", {
       email: pState.emailLogin,
       password: pState.passwordLogin,
     }).then((response) => {
@@ -31,7 +34,7 @@ export default class Login extends Component {
 
   getUser = () => {
     //console.log("GetUser");
-    Axios.get("/user").then((response) => {
+    Axios.get(uri+"/user").then((response) => {
       if (response.data.message !== "No authenticated User") {
         this.setState({ loggedIn: true });
       } else {
