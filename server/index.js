@@ -155,6 +155,7 @@ app.post("/updateInfo", (req, res) => {
 });
 
 app.get("/user", (req, res) => {
+  console.log("User GET: " + req.user);
   if (!req.isAuthenticated()) {
     res.send({ message: "No authenticated User" });
   } else res.send(req.user);
@@ -178,7 +179,7 @@ app.post("/login", function (req, res, next) {
       res.send({ message: "No User Exists" });
       return;
     } else {
-      console.log(user);
+      console.log("User in authenticate: " + user);
       req.login(user, (err) => {
         console.log("in Login: \n");
         console.log(user);
