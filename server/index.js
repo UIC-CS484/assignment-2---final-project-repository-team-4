@@ -46,9 +46,10 @@ app.use(
   })
 );
 app.use(cookieParser("aCode"));
+
+require("./passportConfig.js")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-require("./passportConfig.js")(passport);
 
 //Router
 //[{"id":105.0504696977599,"first_name":"admin","last_name":"admin","email":"google@g","password":"1"}]
