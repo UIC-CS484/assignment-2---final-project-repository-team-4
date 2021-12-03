@@ -14,6 +14,7 @@ const db = require("./databaseFunctions");
 const whitelist = [
   "https://finance.yahoo.com/quote/AAPL/history",
   "http://localhost:3000",
+  "http://tidalstocks.herokuapp.com"
 ];
 app.use((req, res, next) => {
   res.header({ "Access-Control-Allow-Origin": "*" });
