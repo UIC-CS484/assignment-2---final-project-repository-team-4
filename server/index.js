@@ -47,7 +47,7 @@ app.use(
       db: "tidalDB.sqlite3",
       dir: "./Database",
     }),
-    cookie: { secure: true }, //1 day | not here before
+    cookie: { secure: process.env.ENV === 'production' }, //1 day | not here before
   })
 );
 
