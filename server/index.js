@@ -174,6 +174,7 @@ app.post("/login", function (req, res, next) {
       res.send({ message: "No User Exists" });
       return;
     } else {
+      res.send(user);
       req.login(user, (err) => {
         console.log("in Login: \n");
         console.log(user);
