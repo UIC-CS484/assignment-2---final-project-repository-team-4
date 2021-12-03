@@ -16,6 +16,10 @@ const whitelist = [
   "http://localhost:3000",
   "http://tidalstocks.herokuapp.com"
 ];
+app.use(cookieParser("aCode"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use((req, res, next) => {
   // res.header({ "Access-Control-Allow-Origin": "*" });
   // res.header({ "Access-Control-Allow-Credentials": true });
@@ -27,13 +31,13 @@ const corsConfig = {
   credentials: true,
   origin: true,
 }
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
   cors(corsConfig)
 );
 app.use(
   session({
+    proxy: true,
     secret: "aCode",
     resave: false, //true
     saveUninitialized: true,
@@ -42,10 +46,9 @@ app.use(
       db: "tidalDB.sqlite3",
       dir: "./Database",
     }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }, //1 day | not here before
+    //cookie: { maxAge: 1000 * 60 * 60 * 24 }, //1 day | not here before
   })
 );
-app.use(cookieParser("aCode"));
 
 require("./passportConfig.js")(passport);
 app.use(passport.initialize());
