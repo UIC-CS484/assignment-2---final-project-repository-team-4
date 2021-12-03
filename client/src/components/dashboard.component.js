@@ -7,14 +7,14 @@ const Dashboard = () => {
   const [name, setName] = useState(null);
 
   const getUser = () => {
-    Axios.get("http://localhost:3001/user").then((response) => {
+    Axios.get("/user").then((response) => {
       console.log(response);
       setName(response.data.fName);
     });
   };
 
   const logout = () => {
-    Axios.get("http://localhost:3001/logout").then((response) => {
+    Axios.get("/logout").then((response) => {
       setName(null);
     });
   };

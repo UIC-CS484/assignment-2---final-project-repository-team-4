@@ -17,7 +17,7 @@ export default class Login extends Component {
   }
 
   login(pState) {
-    Axios.post("http://localhost:3001/login", {
+    Axios.post("/login", {
       email: pState.emailLogin,
       password: pState.passwordLogin,
     }).then((response) => {
@@ -31,7 +31,7 @@ export default class Login extends Component {
 
   getUser = () => {
     //console.log("GetUser");
-    Axios.get("http://localhost:3001/user").then((response) => {
+    Axios.get("/user").then((response) => {
       if (response.data.message !== "No authenticated User") {
         this.setState({ loggedIn: true });
       } else {

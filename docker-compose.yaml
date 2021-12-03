@@ -16,4 +16,9 @@ services:
     ports:
       - "3000:3000"
     links:
-      - "backend:be"
+      - "backend:be" 
+  # web:
+  #   build: .
+  #   image: "tidal-web"
+  #   ports: 
+  #     - 3001:3001

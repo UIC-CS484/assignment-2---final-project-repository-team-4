@@ -22,7 +22,7 @@ export default class SignUp extends Component {
   createAccount = (pState) => {
     console.log("Create Account");
     if (this.checkPasswordStrength(pState)) {
-      Axios.post("http://localhost:3001/register", {
+      Axios.post("/register", {
         fName: pState.firstName,
         lName: pState.lastName,
         email: pState.emailAddress,
