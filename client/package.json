@@ -25,7 +25,7 @@
   "scripts": {
     "heroku-postbuild": "npm run build",
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false env-cmd .env.production react-scripts build",
+    "build": "cross.env GENERATE_SOURCEMAP=false env-cmd .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
