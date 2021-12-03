@@ -1,6 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const db = require('sqlite3');
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 let users = require('users.json');
 
