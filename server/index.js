@@ -17,16 +17,20 @@ const whitelist = [
   "http://tidalstocks.herokuapp.com"
 ];
 app.use((req, res, next) => {
-  res.header({ "Access-Control-Allow-Origin": "*" });
-  res.header({ "Access-Control-Allow-Credentials": true });
-  res.header({ "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS" });
-  res.header({ "Access-Control-Allow-Origin": "*" });
+  // res.header({ "Access-Control-Allow-Origin": "*" });
+  // res.header({ "Access-Control-Allow-Credentials": true });
+  // res.header({ "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS" });
+  // res.header({ "Access-Control-Allow-Origin": "*" });
   next();
 });
+const corsConfig = {
+  credentials: true,
+  origin: true,
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
-  cors()
+  cors(corsConfig)
 );
 app.use(
   session({
