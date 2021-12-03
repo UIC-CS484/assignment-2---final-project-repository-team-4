@@ -1,5 +1,9 @@
 build:
   docker:
-    web: client/Dockerfile
+    web: server/Dockerfile
 run:
-  web: bundle exec puma -C config/puma.rb
+  npm start
+release:
+  image: web
+  command: 
+    - npm run migrate up
