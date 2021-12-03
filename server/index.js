@@ -32,6 +32,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors(corsConfig)
 );
+
+app.use(cookieParser("aCode"));
+
+require("./passportConfig.js")(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(
   session({
     secret: "aCode",
@@ -45,12 +52,6 @@ app.use(
     cookie: { maxAge: 1000 * 60 * 60 * 24 }, //1 day | not here before
   })
 );
-app.use(cookieParser("aCode"));
-
-require("./passportConfig.js")(passport);
-app.use(passport.initialize());
-app.use(passport.session());
-
 //Router
 //[{"id":105.0504696977599,"first_name":"admin","last_name":"admin","email":"google@g","password":"1"}]
 app.post("/register", async (req, res) => {
@@ -174,7 +175,7 @@ app.post("/login", function (req, res, next) {
       res.send({ message: "No User Exists" });
       return;
     } else {
-      req.logIn(user, (err) => {
+      req.login(user, (err) => {
         console.log("in Login: \n");
         console.log(user);
         console.log("\n");
