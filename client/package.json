@@ -23,7 +23,7 @@
     "yahoo-finance": "^0.3.7"
   },
   "scripts": {
-    "heroku-postbuild": "node server.js",
+    "heroku-postbuild": "GENERATE_SOURCEMAP=false env-cmd .env.production node server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
