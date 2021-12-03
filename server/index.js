@@ -47,7 +47,7 @@ app.use(
       db: "tidalDB.sqlite3",
       dir: "./Database",
     }),
-    //cookie: { maxAge: 1000 * 60 * 60 * 24 }, //1 day | not here before
+    cookie: { secure: true }, //1 day | not here before
   })
 );
 
