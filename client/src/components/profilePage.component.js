@@ -68,7 +68,7 @@ export default class ProfilePage extends Component {
       state.newEmail = state.emailAddress;
     }
 
-    Axios.post(uri+"updateInfo", {
+    Axios.post(uri+"/updateInfo", {
       id: state.id,
       fName: state.newFName,
       lName: state.newLName,
@@ -89,7 +89,7 @@ export default class ProfilePage extends Component {
 
   getUser = () => {
     //console.log("GetUser");
-    Axios.get(uri+"user").then((response) => {
+    Axios.get(uri+"/user").then((response) => {
       if (response.data.message !== "No authenticated User") {
         //console.log(response)
         this.setState({
@@ -107,7 +107,7 @@ export default class ProfilePage extends Component {
   };
 
   deleteAccount = (state) => {
-    Axios.post(uri+"deleteAccount", {
+    Axios.post(uri+"/deleteAccount", {
       id: state.id,
       password: state.password,
       email: state.emailAddress,
