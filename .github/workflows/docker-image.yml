@@ -14,15 +14,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker-compose up -d
-    - name: Add remote origin
-      if: github.ref == 'refs/heads/master' ** job.status == 'success'
-      run : |
-        git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
     - name: fetch
       run: |
         git fetch --prune --unshallow
+    - name: Build the Docker image
+      run: docker-compose up -d
+    - name: Add remote origin
+      run : |
+        git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
     - name: Deploy to Heroku
       run: |
         git push --force heroku master
