@@ -16,7 +16,7 @@ const whitelist = [
   "http://localhost:3000",
   "http://tidalstocks.herokuapp.com"
 ];
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser("aCode"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
