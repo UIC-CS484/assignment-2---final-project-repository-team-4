@@ -1,12 +1,12 @@
-FROM node:6.4.0
+FROM node:12.18.3
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY package.json /usr/src/app/
+COPY ["package.json", "package-lock.json", "./"]
+RUN ls
 RUN npm install --production
-COPY . /usr/src/app
-
-CMD [ "npm", "start" ]
+COPY . .
 
 EXPOSE 3001
+
+CMD ["node", "server.js"]

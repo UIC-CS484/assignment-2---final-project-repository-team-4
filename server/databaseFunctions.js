@@ -10,6 +10,7 @@ let db = new sqlite3.Database("./Database/tidalDB.sqlite3", (err) => {
     console.error(err.message);
     throw err;
   } else {
+    bcrypt.hashSync("A String", 10);
     //Successful database connection
     console.log("Database Connected!");
   }
