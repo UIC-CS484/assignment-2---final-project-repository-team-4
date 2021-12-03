@@ -24,6 +24,7 @@ export default class Login extends Component {
       email: pState.emailLogin,
       password: pState.passwordLogin,
     }).then((response) => {
+      console.log(response);
       if (response.data.message !== "No User Exists") {
         this.setState({ loggedIn: true });
       } else {
