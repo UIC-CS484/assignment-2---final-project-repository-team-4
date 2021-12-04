@@ -1,75 +1,53 @@
-## Available Scripts
+### Mission
 
-In the project directory, you can run:
+To provide a stock visualizer site to allow for users to view and keep track of the stocks they are invested in. Have a easy to use interface and helpful data to keep track of your stocks.
 
-### `npm start`
+### Team Members
+Wayne Kao 
+    - Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev
+    - Bio: Senior, likes anything tech related!
+Sean Kim - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS
+    - Bio:
+Dean Mundrawala - Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication
+    - Bio: 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Goals of Site
+1. To create ways to user to compare stocks with other company
+2. Store your current stocks that you are tracking
+3. Analyse data so that it can track and give insights on patterns and trends that happen throughout a certain time period
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### CODE SNIPPETS
+RESTful API
+```
+var yahooFinance = require("yahoo-finance");
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export const getHistoricalData = async (ticker, fromDate, toDate) => {
+  await yahooFinance
+    .historical({
+      symbol: ticker,
+      from: fromDate,
+      to: toDate,
+      period: "d",
+    })
+    .then(function (quotes) {
+      if (quotes[0]) {
+        console.log(`successfully retrieved ${quotes.length} results`);
+        return quotes;
+      } else {
+        console.log("N/A");
+        return undefined;
+      }
+    });
+};
+```
 
 ### Test Coverage plan
 
 Right now our application has 2 major components: Creating an account and Signing into the dashboard.
 
 Therefore, we will need to write test cases around these 2 core functionalities.
+
+To run the test, just run "npm run test" in both client and server folder
 
 ## Test Cases for Creating an Account
 
@@ -94,7 +72,8 @@ Therefore, we will need to write test cases around these 2 core functionalities.
 ## Test Cases for Server (In server folder)
 
 1. Test that POST register server call works as intended
-   1. Test register on user with same email in database
+   1. Test register to a new user and successful authentication
+   2. Test register on user with same email in database
 2. Test that POST login server call works as intended
    1. Test with right login information
    2. Test with wrong login information
