@@ -20,7 +20,7 @@ Dean Mundrawala
 
 ### CODE SNIPPETS
 RESTful API
-```
+```javascript
 var yahooFinance = require("yahoo-finance");
 
 export const getHistoricalData = async (ticker, fromDate, toDate) => {
@@ -44,7 +44,7 @@ export const getHistoricalData = async (ticker, fromDate, toDate) => {
 ```
 
 Example use of CI/CD && Docker
-```
+```javascript
 version: '3'
 
 services:
@@ -67,7 +67,7 @@ services:
 ```
 
 Heroku
-```
+```json
 "scripts": {
     "heroku-prebuild": "npm install -g serve",
     "start": "serve -s build",
@@ -79,7 +79,7 @@ Heroku
 ```
 
 React  
-```
+```javascript
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -108,7 +108,7 @@ function App() {
 ```
 
 Passport.js
-```
+```javascript
 module.exports = function(passport){
     passport.use(
         new localStrategy({
@@ -130,7 +130,7 @@ module.exports = function(passport){
 ```
 
 SQLite (Session Storing)
-```
+```javascript
 app.use(
   session({
     //proxy: true,
@@ -151,7 +151,7 @@ app.use(
 ```
 
 Node.js Server Endpoints
-```
+```javascript
 app.post("/updateInfo", (req, res) => {
   const id = req.body.id;
   const fname = req.body.fName;
