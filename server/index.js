@@ -145,7 +145,6 @@ app.post("/deleteAccount", (req, res) => {
 });
 
 app.post("/updateInfo", (req, res) => {
-  console.log("In update password");
   const id = req.body.id;
   const fname = req.body.fName;
   const lname = req.body.lName;

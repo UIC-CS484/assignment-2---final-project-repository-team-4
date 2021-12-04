@@ -43,6 +43,147 @@ export const getHistoricalData = async (ticker, fromDate, toDate) => {
 };
 ```
 
+Example use of CI/CD && Docker
+```
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    image: "tidal-backend"
+    ports:
+      - "3001:3001"
+  frontend:
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    image: "client-frontend"
+    ports:
+      - "3000:3000"
+    links:
+      - "backend:be" 
+```
+
+Heroku
+```
+"scripts": {
+    "heroku-prebuild": "npm install -g serve",
+    "start": "serve -s build",
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+```
+
+React  
+```
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import Login from "./components/login.component";
+import SignUp from "./components/signup.component";
+import Dashboard from "./components/dashboard.component";
+import StockViewer from "./components/stockviewer.component";
+import ProfilePage from "./components/profilePage.component";
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+          <div className="container">
+            <Link className="navbar-brand" to={"/sign-in"}>
+              Tidal
+            </Link>
+            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/sign-in"}>
+                    Login
+                  </Link>
+                </li>
+```
+
+Passport.js
+```
+module.exports = function(passport){
+    passport.use(
+        new localStrategy({
+            usernameField: 'email',
+            passwordField: 'password'
+        },
+        async function(username, password, done){
+            console.log("Authenticating");
+            var user = await db.retrieveUser(username, password);
+
+            if(user){
+                done(null, user);
+            }
+            else{
+                done(null, false);
+            }
+            // fs.readFile('users.json', 'utf8', function readFileCallBack(err,data){
+            //     if(err) {console.log(err);}
+            //     else{
+            //         try{
+            //             var parseJson = JSON.parse(data).users;
+            //         }catch(error){
+            //             console.log(error);
+            //         }
+            //         for(i = 0; i < parseJson.length; i++){
+            //             var user = parseJson[i];
+            //             if(user.email == username && user.password == password){
+            //                 done(null, user)
+            //                 return;
+            //             }
+            //         }
+            //         done(null, false);
+            //     }
+            // });
+
+        })
+    )
+```
+
+SQLite (Session Storing)
+```
+app.use(
+  session({
+    //proxy: true,
+    secret: process.env.SESSION_SECRET || "aCode",
+    resave: true, //true
+    saveUninitialized: true,
+    store: new SQLiteStore({
+      table: "session",
+      db: "tidalDB.sqlite3",
+      dir: "./Database",
+    }),
+    cookie: { 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',    
+    }, //1 day | not here before
+  })
+);
+```
+
+Node.js Server Endpoints
+```
+app.post("/updateInfo", (req, res) => {
+  const id = req.body.id;
+  const fname = req.body.fName;
+  const lname = req.body.lName;
+  const email = req.body.email;
+  const password = req.body.password;
+  const changePassword = req.body.changePwd;
+
+  db.updateUserInfo(id, fname, lname, email, password, changePassword);
+
+  res.send({ message: "Update Succesful" });
+});
+```
 ### Test Coverage plan
 
 Right now our application has 2 major components: Creating an account and Signing into the dashboard.
