@@ -6,6 +6,7 @@ import SignUp from "./components/signup.component";
 import Dashboard from "./components/dashboard.component";
 import StockViewer from "./components/stockviewer.component";
 import ProfilePage from "./components/profilePage.component";
+import { MyStocks } from "./components/mystockscomponents/MyStocks";
 
 function App() {
   return (
@@ -31,6 +32,11 @@ function App() {
                 <li className="nav-item">
                   <Link className="nav-link" to={"/stock-viewer"}>
                     Stock Viewer
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/my-stocks"}>
+                    My Stocks
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -71,6 +77,11 @@ function App() {
             <Route path="/profile-page" component={ProfilePage}>
               <div className="auth-inner">
                 <ProfilePage />
+              </div>
+            </Route>
+            <Route path="/my-stocks" component={MyStocks}>
+              <div className="auth-inner">
+                <MyStocks authed={true} />
               </div>
             </Route>
           </Switch>
