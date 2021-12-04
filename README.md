@@ -2,10 +2,14 @@
 
 To provide a stock visualizer site to allow for users to view and keep track of the stocks they are invested in. Have a easy to use interface and helpful data to keep track of your stocks.
 
+### Why Stocks?
+
+Has a ton of data that can be relevant to a lot of people. Also always good to observe trends. Some of us are investors also.
+
 ### Team Members
 Wayne Kao   
     - Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev  
-    - Bio: Senior, likes anything tech related!  
+    - Bio: Senior, likes anything tech related!
 Sean Kim   
     - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS  
     - Bio: ENTER HERE  
@@ -19,6 +23,133 @@ Dean Mundrawala
 3. Analyse data so that it can track and give insights on patterns and trends that happen throughout a certain time period
 
 ### CODE SNIPPETS
+
+React  
+```javascript
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import Login from "./components/login.component";
+import SignUp from "./components/signup.component";
+import Dashboard from "./components/dashboard.component";
+import StockViewer from "./components/stockviewer.component";
+import ProfilePage from "./components/profilePage.component";
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+          <div className="container">
+            <Link className="navbar-brand" to={"/sign-in"}>
+              Tidal
+            </Link>
+            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/sign-in"}>
+                    Login
+                  </Link>
+                </li>
+```
+
+SQLite (Session Storing)
+```javascript
+app.use(
+  session({
+    //proxy: true,
+    secret: process.env.SESSION_SECRET || "aCode",
+    resave: true,
+    saveUninitialized: true,
+    store: new SQLiteStore({
+      table: "session",
+      db: "tidalDB.sqlite3",
+      dir: "./Database",
+    }),
+    cookie: { 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',    
+    }
+  })
+);
+```
+
+Passport.js
+```javascript
+module.exports = function(passport){
+    passport.use(
+        new localStrategy({
+            usernameField: 'email',
+            passwordField: 'password'
+        },
+        async function(username, password, done){
+            console.log("Authenticating");
+            var user = await db.retrieveUser(username, password);
+
+            if(user){
+                done(null, user);
+            }
+            else{
+                done(null, false);
+            }
+        })
+    )
+
+    passport.serializeUser((user, done) => {
+        console.log("in serialize");
+        return done(null, user.id);
+    })
+
+    passport.deserializeUser((id, done) => {
+        console.log("In deserialize");
+        console.log(id);
+        db.findById(id).then((user) => {
+            console.log("User");
+            console.log(user)
+            return done(null, user);
+        })
+        .catch(err => 
+            done(null, false));
+    })
+```
+
+Database API
+```Javascript
+//Delete User (have user enter email and password for confirmation)
+let deleteUser = async (id, email, password) => {
+  console.log(id);
+  console.log(email);
+  console.log(password);
+  var result = await getUserDBHashed(email, password);
+  console.log("result: " + result);
+  if (result) {
+    if (result.id == id) {
+      var deleteUserSQL = "DELETE FROM users WHERE id = ?";
+      await db.run(deleteUserSQL, [id]);
+      return true;
+    }
+  } else {
+    return false;
+  }
+};
+```
+
+Node.js Server Endpoints
+```javascript
+app.post("/updateInfo", (req, res) => {
+  const id = req.body.id;
+  const fname = req.body.fName;
+  const lname = req.body.lName;
+  const email = req.body.email;
+  const password = req.body.password;
+  const changePassword = req.body.changePwd;
+
+  db.updateUserInfo(id, fname, lname, email, password, changePassword);
+
+  res.send({ message: "Update Succesful" });
+});
+```
+
 RESTful API
 ```javascript
 var yahooFinance = require("yahoo-finance");
@@ -156,93 +287,6 @@ Heroku
   },
 ```
 
-React  
-```javascript
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-import Login from "./components/login.component";
-import SignUp from "./components/signup.component";
-import Dashboard from "./components/dashboard.component";
-import StockViewer from "./components/stockviewer.component";
-import ProfilePage from "./components/profilePage.component";
-
-function App() {
-  return (
-    <Router>
-      <div className="App">
-        <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-          <div className="container">
-            <Link className="navbar-brand" to={"/sign-in"}>
-              Tidal
-            </Link>
-            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/sign-in"}>
-                    Login
-                  </Link>
-                </li>
-```
-
-Passport.js
-```javascript
-module.exports = function(passport){
-    passport.use(
-        new localStrategy({
-            usernameField: 'email',
-            passwordField: 'password'
-        },
-        async function(username, password, done){
-            console.log("Authenticating");
-            var user = await db.retrieveUser(username, password);
-
-            if(user){
-                done(null, user);
-            }
-            else{
-                done(null, false);
-            }
-        })
-    )
-```
-
-SQLite (Session Storing)
-```javascript
-app.use(
-  session({
-    //proxy: true,
-    secret: process.env.SESSION_SECRET || "aCode",
-    resave: true,
-    saveUninitialized: true,
-    store: new SQLiteStore({
-      table: "session",
-      db: "tidalDB.sqlite3",
-      dir: "./Database",
-    }),
-    cookie: { 
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',    
-    }
-  })
-);
-```
-
-Node.js Server Endpoints
-```javascript
-app.post("/updateInfo", (req, res) => {
-  const id = req.body.id;
-  const fname = req.body.fName;
-  const lname = req.body.lName;
-  const email = req.body.email;
-  const password = req.body.password;
-  const changePassword = req.body.changePwd;
-
-  db.updateUserInfo(id, fname, lname, email, password, changePassword);
-
-  res.send({ message: "Update Succesful" });
-});
-```
 ### URL
 https://tidalstocks.herokuapp.com/ 
 
