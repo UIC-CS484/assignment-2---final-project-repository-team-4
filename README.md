@@ -7,24 +7,27 @@ To provide a stock visualizer site to allow for users to view and keep track of 
 Has a ton of data that can be relevant to a lot of people. Also always good to observe trends. Some of us are investors also.
 
 ### Team Members
-Wayne Kao   
-    - Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev  
-    - Bio: Senior, likes anything tech related!
-Sean Kim   
-    - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS  
-    - Bio: ENTER HERE  
+
+Wayne Kao  
+ - Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev  
+ - Bio: Senior, likes anything tech related!
+Sean Kim  
+ - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS  
+ - Bio: Senior, I wish I was graduated! Like to go for long swims on the road and short walks on the beach.
 Dean Mundrawala  
-    - Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication    
-    - Bio: ENTERHERE  
+ - Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication  
+ - Bio: ENTERHERE
 
 ### Goals of Site
+
 1. To create ways to user to compare stocks with other company
 2. Store your current stocks that you are tracking
 3. Analyse data so that it can track and give insights on patterns and trends that happen throughout a certain time period
 
 ### CODE SNIPPETS
 
-React  
+React
+
 ```javascript
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -54,6 +57,7 @@ function App() {
 ```
 
 SQLite (Session Storing)
+
 ```javascript
 app.use(
   session({
@@ -66,15 +70,16 @@ app.use(
       db: "tidalDB.sqlite3",
       dir: "./Database",
     }),
-    cookie: { 
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',    
-    }
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    },
   })
 );
 ```
 
 Passport.js
+
 ```javascript
 module.exports = function(passport){
     passport.use(
@@ -108,12 +113,13 @@ module.exports = function(passport){
             console.log(user)
             return done(null, user);
         })
-        .catch(err => 
+        .catch(err =>
             done(null, false));
     })
 ```
 
 Database API
+
 ```Javascript
 //Delete User (have user enter email and password for confirmation)
 let deleteUser = async (id, email, password) => {
@@ -135,6 +141,7 @@ let deleteUser = async (id, email, password) => {
 ```
 
 Node.js Server Endpoints
+
 ```javascript
 app.post("/updateInfo", (req, res) => {
   const id = req.body.id;
@@ -151,6 +158,7 @@ app.post("/updateInfo", (req, res) => {
 ```
 
 RESTful API
+
 ```javascript
 var yahooFinance = require("yahoo-finance");
 
@@ -175,6 +183,7 @@ export const getHistoricalData = async (ticker, fromDate, toDate) => {
 ```
 
 Nivo
+
 ```JavaScript
 import { ResponsiveLine } from "@nivo/line";
 
@@ -253,6 +262,7 @@ export default MyResponsiveLine;
 ```
 
 Example use of CI/CD && Docker
+
 ```javascript
 version: '3'
 
@@ -272,10 +282,11 @@ services:
     ports:
       - "3000:3000"
     links:
-      - "backend:be" 
+      - "backend:be"
 ```
 
 Heroku
+
 ```json
 "scripts": {
     "heroku-prebuild": "npm install -g serve",
@@ -288,7 +299,8 @@ Heroku
 ```
 
 ### URL
-https://tidalstocks.herokuapp.com/ 
+
+https://tidalstocks.herokuapp.com/
 
 ### Test Coverage plan
 
@@ -337,6 +349,6 @@ To run the test, just run "npm run test" in both client and server folder
 2. The data endpoint, Historical Stock, from Yahoo Finance provides the user meaningful data pertaining to the price of the stock in it's history.
    1. We then use the Nivo Line chart to graph that data to help the user see the trend of the stock price over a period of time
 
-
 ### ER Diagram
+
 ![ERD Diagram](/ERD.png?raw=true "ERD Diagram")
