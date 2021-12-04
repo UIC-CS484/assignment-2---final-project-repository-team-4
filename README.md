@@ -8,15 +8,16 @@ Has a ton of data that can be relevant to a lot of people. Also always good to o
 
 ### Team Members
 
-Wayne Kao  
- - Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev  
- - Bio: Senior, likes anything tech related!
-Sean Kim  
- - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS  
- - Bio: Senior, I wish I was graduated! Like to go for long swims on the road and short walks on the beach.
-Dean Mundrawala  
- - Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication  
- - Bio: ENTERHERE
+####Wayne Kao
+
+- Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev
+- Bio: Senior, likes anything tech related!
+  ####Sean Kim
+- Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS
+- Bio: Senior, I wish I was graduated! Like to go for long swims on the road and short walks on the beach.
+  ####Dean Mundrawala
+- Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication
+- Bio: Senior graduating this month who will be working as a SDE at VMWare in February!
 
 ### Goals of Site
 
