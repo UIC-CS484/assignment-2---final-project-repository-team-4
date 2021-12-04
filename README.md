@@ -4,11 +4,13 @@ To provide a stock visualizer site to allow for users to view and keep track of 
 
 ### Team Members
 Wayne Kao   
-    -Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev  
+    - Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev  
     - Bio: Senior, likes anything tech related!  
-Sean Kim - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS  
+Sean Kim   
+    - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS  
     - Bio: ENTER HERE  
-Dean Mundrawala - Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication  
+Dean Mundrawala  
+    - Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication    
     - Bio: ENTERHERE  
 
 ### Goals of Site
