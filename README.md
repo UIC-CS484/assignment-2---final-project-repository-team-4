@@ -125,25 +125,6 @@ module.exports = function(passport){
             else{
                 done(null, false);
             }
-            // fs.readFile('users.json', 'utf8', function readFileCallBack(err,data){
-            //     if(err) {console.log(err);}
-            //     else{
-            //         try{
-            //             var parseJson = JSON.parse(data).users;
-            //         }catch(error){
-            //             console.log(error);
-            //         }
-            //         for(i = 0; i < parseJson.length; i++){
-            //             var user = parseJson[i];
-            //             if(user.email == username && user.password == password){
-            //                 done(null, user)
-            //                 return;
-            //             }
-            //         }
-            //         done(null, false);
-            //     }
-            // });
-
         })
     )
 ```
@@ -154,7 +135,7 @@ app.use(
   session({
     //proxy: true,
     secret: process.env.SESSION_SECRET || "aCode",
-    resave: true, //true
+    resave: true,
     saveUninitialized: true,
     store: new SQLiteStore({
       table: "session",
@@ -164,7 +145,7 @@ app.use(
     cookie: { 
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',    
-    }, //1 day | not here before
+    }
   })
 );
 ```
@@ -184,6 +165,8 @@ app.post("/updateInfo", (req, res) => {
   res.send({ message: "Update Succesful" });
 });
 ```
+
+
 ### Test Coverage plan
 
 Right now our application has 2 major components: Creating an account and Signing into the dashboard.
