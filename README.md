@@ -3,13 +3,13 @@
 To provide a stock visualizer site to allow for users to view and keep track of the stocks they are invested in. Have a easy to use interface and helpful data to keep track of your stocks.
 
 ### Team Members
-Wayne Kao 
-    - Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev
-    - Bio: Senior, likes anything tech related!
-Sean Kim - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS
-    - Bio:
-Dean Mundrawala - Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication
-    - Bio: 
+Wayne Kao   
+    -Database Management, Passport Authentication, CI/CD Integration/Production Environment Hoster, Fullstack Dev  
+    - Bio: Senior, likes anything tech related!  
+Sean Kim - Full Stack dev, Front end, Server Endpoint, Chart, CI/CD Integration, CSS  
+    - Bio: ENTER HERE  
+Dean Mundrawala - Full Stack dev, RESTful API endpoint, CSS, Chart Data, Page Router, Passport Authentication  
+    - Bio: ENTERHERE  
 
 ### Goals of Site
 1. To create ways to user to compare stocks with other company
