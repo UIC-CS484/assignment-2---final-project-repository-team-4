@@ -165,7 +165,8 @@ app.post("/updateInfo", (req, res) => {
   res.send({ message: "Update Succesful" });
 });
 ```
-
+### URL
+https://tidalstocks.herokuapp.com/ 
 
 ### Test Coverage plan
 
