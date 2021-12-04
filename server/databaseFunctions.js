@@ -47,6 +47,21 @@ let findById = async (id) => {
   return result;
 };
 
+let deleteUserNoId = async (email, password) => {
+  console.log(id);
+  console.log(email);
+  console.log(password);
+  var result = await getUserDBHashed(email, password);
+  console.log("result: " + result);
+  if (result) {
+    var deleteUserSQL = "DELETE FROM users WHERE id = ?";
+    await db.run(deleteUserSQL, [result.id]);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 //Create a User
 let createUser = async (fName, lName, email, password) => {
   var createUserSql =
@@ -158,4 +173,5 @@ module.exports = {
   findById,
   updateUserInfo,
   deleteUser,
+  deleteUserNoId,
 };

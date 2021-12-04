@@ -2,6 +2,7 @@ const app = require("../server");
 const supertest = require("supertest"); //service
 const request = supertest(app);
 const fs = require('fs');
+const db = require("../databaseFunctions");
 
 
 beforeAll(done => {
@@ -85,6 +86,8 @@ test('1.2 Test that register new user with existing email', async () => {
     if(res.body.message == "Email already used"){
         expect(res.body.message).toBe("Email already used");
     }
+    //db.deleteUserNoId(data1.email, data1.password);
+
 
 });
 

@@ -1,17 +1,6 @@
-# FROM node:12
-# WORKDIR /app/server
-# COPY ./server/package.json .
-# COPY ./server .
-# RUN npm install
+FROM node:12.18.3
 
-# WORKDIR /app/client
-# COPY ./client/package.json .
-# COPY ./client/public .
-# COPY ./client .
-# RUN npm install
-# RUN npm run build
+WORKDIR /app
 
-# WORKDIR /app/server
-
-# EXPOSE 3001
-# CMD ["node", "server.js"]
+CMD ["npm", "run", "test"]
+# CMD ["npm", "run", "build"]

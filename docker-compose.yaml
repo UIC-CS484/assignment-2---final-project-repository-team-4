@@ -17,6 +17,10 @@ services:
       - "3000:3000"
     links:
       - "backend:be" 
+  # test:
+  #     build:
+  #       context: .
+  #       dockerfile: ./Dockerfile
   # web:
   #   build: .
   #   image: "tidal-web"

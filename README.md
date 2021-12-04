@@ -1,7 +1,3 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -98,8 +94,7 @@ Therefore, we will need to write test cases around these 2 core functionalities.
 ## Test Cases for Server (In server folder)
 
 1. Test that POST register server call works as intended
-   1. Test register to a new user and successful authentication
-   2. Test register on user with same email in database
+   1. Test register on user with same email in database
 2. Test that POST login server call works as intended
    1. Test with right login information
    2. Test with wrong login information
