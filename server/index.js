@@ -10,6 +10,7 @@ const session = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(session);
 const db = require("./databaseFunctions");
 
+app.set("trust proxy", 1);
 //Middleware
 const whitelist = [
   "https://finance.yahoo.com/quote/AAPL/history",
@@ -29,7 +30,7 @@ app.use((req, res, next) => {
 });
 const corsConfig = {
   credentials: true,
-  origin: true,
+  origin: [process.env.FRONTEND_APP_URL],
 }
 
 app.use(
@@ -38,15 +39,18 @@ app.use(
 app.use(
   session({
     //proxy: true,
-    secret: "aCode",
-    resave: false, //true
+    secret: process.env.SESSION_SECRET || "aCode",
+    resave: true, //true
     saveUninitialized: true,
     store: new SQLiteStore({
       table: "session",
       db: "tidalDB.sqlite3",
       dir: "./Database",
     }),
-    cookie: { secure: process.env.ENV === 'production' }, //1 day | not here before
+    cookie: { 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',    
+    }, //1 day | not here before
   })
 );
 

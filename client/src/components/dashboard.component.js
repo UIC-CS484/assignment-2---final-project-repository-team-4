@@ -9,14 +9,14 @@ const Dashboard = () => {
   const [name, setName] = useState(null);
 
   const getUser = () => {
-    Axios.get(uri+"/user").then((response) => {
+    Axios.get(uri+"/user", {withCredentials:true}).then((response) => {
       console.log(response);
       setName(response.data.fName);
     });
   };
 
   const logout = () => {
-    Axios.get(uri+"/logout").then((response) => {
+    Axios.get(uri+"/logout", {withCredentials:true}).then((response) => {
       setName(null);
     });
   };

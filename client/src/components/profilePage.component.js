@@ -75,7 +75,7 @@ export default class ProfilePage extends Component {
       email: state.newEmail,
       password: state.newPassword,
       changePwd: state.changePassword,
-    }).then((response) => {
+    }, {withCredentials:true}).then((response) => {
       this.setState({ data: response.data });
       if (response.data.message == "Update Succesful") {
         /* Play some notification */
@@ -89,7 +89,7 @@ export default class ProfilePage extends Component {
 
   getUser = () => {
     //console.log("GetUser");
-    Axios.get(uri+"/user").then((response) => {
+    Axios.get(uri+"/user", {withCredentials:true}).then((response) => {
       if (response.data.message !== "No authenticated User") {
         //console.log(response)
         this.setState({
@@ -111,7 +111,7 @@ export default class ProfilePage extends Component {
       id: state.id,
       password: state.password,
       email: state.emailAddress,
-    }).then((response) => {
+    }, {withCredentials:true}).then((response) => {
       this.setState({ data: response.data });
       console.log(response);
       if (response.data.message == "Logged Out") {

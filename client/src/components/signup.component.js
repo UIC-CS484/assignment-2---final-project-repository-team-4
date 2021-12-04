@@ -29,7 +29,7 @@ export default class SignUp extends Component {
         lName: pState.lastName,
         email: pState.emailAddress,
         password: pState.password,
-      }).then((response) => {
+      }, {withCredentials:true}).then((response) => {
         this.setState({ data: response.data });
         if (response.data.message == "Email already used") {
           this.setState({ errorMsg: "Email already used!" });
@@ -37,7 +37,7 @@ export default class SignUp extends Component {
           Axios.post(uri+"/login", {
             email: pState.emailAddress,
             password: pState.password,
-          }).then((response) => {
+          }, {withCredentials:true}).then((response) => {
             if (response.data.message !== "No User Exists") {
               this.setState({ loggedIn: true });
             }

@@ -23,7 +23,7 @@ export default class Login extends Component {
     Axios.post(uri+"/login", {
       email: pState.emailLogin,
       password: pState.passwordLogin,
-    }).then((response) => {
+    }, {withCredentials:true}).then((response) => {
       console.log(response);
       if (response.data.message !== "No User Exists") {
         this.setState({ loggedIn: true });
@@ -35,7 +35,7 @@ export default class Login extends Component {
 
   getUser = () => {
     //console.log("GetUser");
-    Axios.get(uri+"/user").then((response) => {
+    Axios.get(uri+"/user", {withCredentials:true}).then((response) => {
       if (response.data.message !== "No authenticated User") {
         this.setState({ loggedIn: true });
       } else {
