@@ -44,7 +44,7 @@ module.exports = function(passport){
 
     passport.serializeUser((user, done) => {
         console.log("in serialize");
-        done(null, user.id);
+        return done(null, user.id);
     })
 
     passport.deserializeUser((id, done) => {
@@ -53,8 +53,9 @@ module.exports = function(passport){
         db.findById(id).then((user) => {
             console.log("User");
             console.log(user)
-            done(null, user);
+            return done(null, user);
         })
-        .catch(err => done(null, false));
+        .catch(err => 
+            done(null, false));
     })
 }

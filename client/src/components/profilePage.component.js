@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
+const uri = process.env.REACT_APP_API_ENDPOINT;
 
 export default class ProfilePage extends Component {
   constructor(props) {
@@ -67,14 +68,14 @@ export default class ProfilePage extends Component {
       state.newEmail = state.emailAddress;
     }
 
-    Axios.post("http://localhost:3001/updateInfo", {
+    Axios.post(uri+"/updateInfo", {
       id: state.id,
       fName: state.newFName,
       lName: state.newLName,
       email: state.newEmail,
       password: state.newPassword,
       changePwd: state.changePassword,
-    }).then((response) => {
+    }, {withCredentials:true}).then((response) => {
       this.setState({ data: response.data });
       if (response.data.message == "Update Succesful") {
         /* Play some notification */
@@ -88,7 +89,7 @@ export default class ProfilePage extends Component {
 
   getUser = () => {
     //console.log("GetUser");
-    Axios.get("http://localhost:3001/user").then((response) => {
+    Axios.get(uri+"/user", {withCredentials:true}).then((response) => {
       if (response.data.message !== "No authenticated User") {
         //console.log(response)
         this.setState({
@@ -106,11 +107,11 @@ export default class ProfilePage extends Component {
   };
 
   deleteAccount = (state) => {
-    Axios.post("http://localhost:3001/deleteAccount", {
+    Axios.post(uri+"/deleteAccount", {
       id: state.id,
       password: state.password,
       email: state.emailAddress,
-    }).then((response) => {
+    }, {withCredentials:true}).then((response) => {
       this.setState({ data: response.data });
       console.log(response);
       if (response.data.message == "Logged Out") {

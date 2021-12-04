@@ -10,46 +10,54 @@ const session = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(session);
 const db = require("./databaseFunctions");
 
+app.set("trust proxy", 1);
 //Middleware
 const whitelist = [
   "https://finance.yahoo.com/quote/AAPL/history",
   "http://localhost:3000",
+  "http://tidalstocks.herokuapp.com"
 ];
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser("aCode"));
+app.use(bodyParser.json());
+
 app.use((req, res, next) => {
-  res.header({ "Access-Control-Allow-Origin": "*" });
+  res.header({ "Access-Control-Allow-Origin": req.headers.origin });
+  res.header({ "Access-Control-Allow-Credentials": true });
+  res.header({ "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE" });
+  res.header({ "Access-Control-Allow-Headers": "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept" });
   next();
 });
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const corsConfig = {
+  credentials: true,
+  origin: [process.env.FRONTEND_APP_URL],
+}
+
 app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
+  cors(corsConfig)
 );
 app.use(
   session({
-    secret: "aCode",
-    resave: false, //true
+    //proxy: true,
+    secret: process.env.SESSION_SECRET || "aCode",
+    resave: true, //true
     saveUninitialized: true,
     store: new SQLiteStore({
       table: "session",
       db: "tidalDB.sqlite3",
       dir: "./Database",
     }),
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }, //1 day | not here before
+    cookie: { 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',    
+    }, //1 day | not here before
   })
 );
-app.use(cookieParser("aCode"));
+
+require("./passportConfig.js")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-require("./passportConfig.js")(passport);
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Router
 //[{"id":105.0504696977599,"first_name":"admin","last_name":"admin","email":"google@g","password":"1"}]
@@ -151,6 +159,7 @@ app.post("/updateInfo", (req, res) => {
 });
 
 app.get("/user", (req, res) => {
+  console.log("User GET: " + req.user);
   if (!req.isAuthenticated()) {
     res.send({ message: "No authenticated User" });
   } else res.send(req.user);
@@ -174,7 +183,8 @@ app.post("/login", function (req, res, next) {
       res.send({ message: "No User Exists" });
       return;
     } else {
-      req.logIn(user, (err) => {
+      console.log("User in authenticate: " + user);
+      req.login(user, (err) => {
         console.log("in Login: \n");
         console.log(user);
         console.log("\n");

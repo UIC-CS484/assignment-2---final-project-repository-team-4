@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { Redirect } from "react-router-dom";
 
+const uri = process.env.REACT_APP_API_ENDPOINT;
+
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -17,10 +20,11 @@ export default class Login extends Component {
   }
 
   login(pState) {
-    Axios.post("http://localhost:3001/login", {
+    Axios.post(uri+"/login", {
       email: pState.emailLogin,
       password: pState.passwordLogin,
-    }).then((response) => {
+    }, {withCredentials:true}).then((response) => {
+      console.log(response);
       if (response.data.message !== "No User Exists") {
         this.setState({ loggedIn: true });
       } else {
@@ -31,7 +35,7 @@ export default class Login extends Component {
 
   getUser = () => {
     //console.log("GetUser");
-    Axios.get("http://localhost:3001/user").then((response) => {
+    Axios.get(uri+"/user", {withCredentials:true}).then((response) => {
       if (response.data.message !== "No authenticated User") {
         this.setState({ loggedIn: true });
       } else {
