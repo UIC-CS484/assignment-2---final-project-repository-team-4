@@ -128,11 +128,7 @@ Database API
 ```Javascript
 //Delete User (have user enter email and password for confirmation)
 let deleteUser = async (id, email, password) => {
-  console.log(id);
-  console.log(email);
-  console.log(password);
   var result = await getUserDBHashed(email, password);
-  console.log("result: " + result);
   if (result) {
     if (result.id == id) {
       var deleteUserSQL = "DELETE FROM users WHERE id = ?";
@@ -145,9 +141,43 @@ let deleteUser = async (id, email, password) => {
 };
 ```
 
+Axios
+```Javascript
+login(pState) {
+    Axios.post(uri+"/login", {
+      email: pState.emailLogin,
+      password: pState.passwordLogin,
+    }, {withCredentials:true}).then((response) => {
+      console.log(response);
+      if (response.data.message !== "No User Exists") {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ errorMsg: "Invalid email or password" });
+      }
+    });
+  }
+```
+
 Node.js Server Endpoints
 
 ```javascript
+app.post("/login", function (req, res, next) {
+  const email = req.body.email;
+  const password = req.body.password;
+  passport.authenticate("local", function (err, user, info) {
+    if (err) throw err;
+    if (user == false) {
+      res.send({ message: "No User Exists" });
+      return;
+    } else {
+      req.login(user, (err) => {
+        if (err) throw err;
+        res.send({ message: "Sucessfully Authenticated" });
+      });
+    }
+  })(req, res, next);
+});
+
 app.post("/updateInfo", (req, res) => {
   const id = req.body.id;
   const fname = req.body.fName;
